@@ -5,7 +5,7 @@ import numpy as np
 from supremacy import helpers
 
 # This is your team name
-CREATOR = "SimpleAI"
+CREATOR = "Roberto"
 
 
 def tank_ai(tank, info, game_map):
@@ -47,8 +47,10 @@ class PlayerAi:
     def __init__(self):
         self.team = CREATOR  # Mandatory attribute
         self.build_queue = helpers.BuildQueue(
-            ["mine", "tank", "ship", "jet"], cycle=True
-        )
+            ["mine", "tank" , "mine" , "ship" , "mine" , "ship" , "mine" , "mine"],cycle=False
+        )     
+        self.phase_one = True
+
 
     def run(self, t: float, dt: float, info: dict, game_map: np.ndarray):
         """
@@ -58,12 +60,24 @@ class PlayerAi:
         # Get information about my team
         myinfo = info[self.team]
 
+    
         # Iterate through all my bases and process build queue
         for base in myinfo["bases"]:
             # Calling the build_queue will return the object that was built by the base.
             # It will return None if the base did not have enough resources to build.
-            obj = self.build_queue(base)
 
+            if base.mines >= 6:
+                if self.phase_one:
+                    self.build_queue = helpers.BuildQueue(
+                        ["ship", "jet",], cycle=True 
+                    )
+                    self.phase_one = False
+            obj = self.build_queue(base)       
+            
+            
+
+
+        
         # Try to find an enemy target
         # If there are multiple teams in the info, find the first team that is not mine
         if len(info) > 1:
