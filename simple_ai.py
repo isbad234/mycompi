@@ -48,8 +48,11 @@ class PlayerAi:
         self.team = CREATOR  # Mandatory attribute
         self.build_queue = helpers.BuildQueue(
             ["mine", "tank" , "mine" , "ship" , "mine" , "ship" , "mine" , "mine"],cycle=False
-        )     
-        self.phase_one = True
+        ) 
+        self.build_queue2 = helpers.BuildQueue(
+                        ["ship", "jet",], cycle=True 
+                    )
+        
 
 
     def run(self, t: float, dt: float, info: dict, game_map: np.ndarray):
@@ -67,12 +70,9 @@ class PlayerAi:
             # It will return None if the base did not have enough resources to build.
 
             if base.mines >= 6:
-                if self.phase_one:
-                    self.build_queue = helpers.BuildQueue(
-                        ["ship", "jet",], cycle=True 
-                    )
-                    self.phase_one = False
-            obj = self.build_queue(base)       
+                obj = self.build_queue2(base)
+            else:
+                obj = self.build_queue(base)       
             
             
 
