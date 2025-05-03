@@ -50,7 +50,7 @@ class PlayerAi:
             ["mine", "tank" , "mine" , "ship" , "mine" , "ship" , "mine" , "mine"],cycle=False
         ) 
         self.build_queue2 = helpers.BuildQueue(
-                        ["ship", "jet",], cycle=True 
+                        ["ship", "jet", "jet"], cycle=True 
                     )
         
 
